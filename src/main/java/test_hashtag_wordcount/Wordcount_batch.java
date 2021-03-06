@@ -3,7 +3,6 @@ package test_hashtag_wordcount;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
-//import org.apache.flink.api.java.operators.DataSource;
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.util.Collector;
 
@@ -25,7 +24,6 @@ public class Wordcount_batch {
     }
     //自定义类，实现flatmapfunction接口，注意接口中的泛型
     public static class MyFlatMapper implements FlatMapFunction<String, Tuple2<String,Integer>>{
-
 
         public void flatMap(String s, Collector<Tuple2<String, Integer>> collector) throws Exception {
             String[] words = s.split(" ");

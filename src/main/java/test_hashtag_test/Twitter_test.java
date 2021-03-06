@@ -11,23 +11,28 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.connectors.twitter.TwitterSource;
 import org.apache.flink.util.Collector;
 
+
+import java.io.FileInputStream;
 import java.util.Properties;
 
 public class Twitter_test {
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+        //get the properties used to link to Twitter API
+        Properties twitterProperties = new Properties();
+        twitterProperties.load(ClassLoader.getSystemClassLoader().getResourceAsStream("twitter.properties"));
         Properties props = new Properties();
-        props.setProperty(TwitterSource.CONSUMER_KEY, "GFe9ZANOlCiUa1a7ElS6mxRyT");
-        props.setProperty(TwitterSource.CONSUMER_SECRET, "UjRDyjy3ZltDWy8MJ0AbFv0lpcK1envUJyE9N7zNesymI8Ufjp");
-        props.setProperty(TwitterSource.TOKEN, "1366394106184884227-QH5Tj86SnX9RltVMOu2WSBF4duFfe4");
-        props.setProperty(TwitterSource.TOKEN_SECRET, "44JuzWR5yiQxMkIwMKsBvkCm7k4f7OAHysKAARQt4ZUrP");
+        props.setProperty(TwitterSource.CONSUMER_KEY, twitterProperties.getProperty("CONSUMER_KEY"));
+        props.setProperty(TwitterSource.CONSUMER_SECRET, twitterProperties.getProperty("CONSUMER_SECRET"));
+        props.setProperty(TwitterSource.TOKEN, twitterProperties.getProperty("TOKEN"));
+        props.setProperty(TwitterSource.TOKEN_SECRET, twitterProperties.getProperty("TOKEN_SECRET"));
         DataStream<String> streamSource = env.addSource(new TwitterSource(props));
 
         streamSource.flatMap(new TweetParser())//encapsulate the string to the tweet object
                 .map(new TweetKeyValue())//map to key-value
                 .keyBy(new KeySelector<Tuple2<Tweet, Integer>, String>() {
                     public String getKey(Tuple2<Tweet, Integer> tweetIntegerTuple2) throws Exception {
-                        return tweetIntegerTuple2.f0.source;//use source to classify
+                        return tweetIntegerTuple2.f0.hashtagStr;//use hashtag to classify
                     }
                 })
                 .window(TumblingProcessingTimeWindows.of(Time.seconds(5)))//5 seconds one analyze
@@ -68,7 +73,7 @@ public class Twitter_test {
          */
 
         public void flatMap(String value, Collector<Tweet> collector) throws Exception {
-            Tweet tweet = Tweet.fromString(value);
+            Tweet tweet = Tweet.fromString(value);//the value is the format of json
             if (tweet != null) {
                 collector.collect(tweet);
             }
