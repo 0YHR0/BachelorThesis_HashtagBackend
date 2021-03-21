@@ -13,6 +13,7 @@ import org.apache.flink.util.Collector;
 
 
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.Properties;
 
 public class Twitter_test {
@@ -27,6 +28,7 @@ public class Twitter_test {
         props.setProperty(TwitterSource.TOKEN, twitterProperties.getProperty("TOKEN"));
         props.setProperty(TwitterSource.TOKEN_SECRET, twitterProperties.getProperty("TOKEN_SECRET"));
         DataStream<String> streamSource = env.addSource(new TwitterSource(props));
+//        InputStreamReader inputStreamReader = FilterTwitterStream.getStream();
 
         streamSource.flatMap(new TweetParser())//encapsulate the string to the tweet object
                 .map(new TweetKeyValue())//map to key-value

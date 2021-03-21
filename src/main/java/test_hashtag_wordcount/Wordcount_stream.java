@@ -13,6 +13,7 @@ public class Wordcount_stream {
 //        DataStream<String> inputSource= env.readTextFile(inputpath);
         //从服务器获取流数据
         DataStream<String> inputSource= env.socketTextStream("47.100.46.122",7777);
+//        InputStreamReader inputStreamReader = FilterTwitterStream.getStream();
 
         //keyBy 根据string的hashcode进行重分区
         DataStream<Tuple2<String, Integer>> resultStream
