@@ -21,14 +21,18 @@ public class Twitter_test {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         //get the properties used to link to Twitter API
         Properties twitterProperties = new Properties();
+
         twitterProperties.load(ClassLoader.getSystemClassLoader().getResourceAsStream("twitter.properties"));
         Properties props = new Properties();
         props.setProperty(TwitterSource.CONSUMER_KEY, twitterProperties.getProperty("CONSUMER_KEY"));
         props.setProperty(TwitterSource.CONSUMER_SECRET, twitterProperties.getProperty("CONSUMER_SECRET"));
         props.setProperty(TwitterSource.TOKEN, twitterProperties.getProperty("TOKEN"));
         props.setProperty(TwitterSource.TOKEN_SECRET, twitterProperties.getProperty("TOKEN_SECRET"));
-        DataStream<String> streamSource = env.addSource(new TwitterSource(props));
-//        InputStreamReader inputStreamReader = FilterTwitterStream.getStream();
+        TwitterSource twitterSource = new TwitterSource(props);
+        //get the filter of the twitter
+        TweetFilter customFilterInitializer = new TweetFilter();
+        twitterSource.setCustomEndpointInitializer(customFilterInitializer);
+        DataStream<String> streamSource = env.addSource(twitterSource);
 
         streamSource.flatMap(new TweetParser())//encapsulate the string to the tweet object
                 .map(new TweetKeyValue())//map to key-value
