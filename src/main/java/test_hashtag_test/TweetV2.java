@@ -16,11 +16,59 @@ import java.util.List;
 public class TweetV2 {
 
     private String text;
-    private String userName;
-    public String rawText;//the initial text
-    public String source;
-    public List<String> hashtags = new ArrayList<String>();
-    public String hashtagStr = "";
+    private String id;
+    private String rawText;//the initial text
+    private String source;
+    private List<String> hashtags = new ArrayList<String>();
+    private String hashtagStr = "";
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getRawText() {
+        return rawText;
+    }
+
+    public void setRawText(String rawText) {
+        this.rawText = rawText;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public List<String> getHashtags() {
+        return hashtags;
+    }
+
+    public void setHashtags(List<String> hashtags) {
+        this.hashtags = hashtags;
+    }
+
+    public String getHashtagStr() {
+        return hashtagStr;
+    }
+
+    public void setHashtagStr(String hashtagStr) {
+        this.hashtagStr = hashtagStr;
+    }
 
     private TweetV2() {
     }
@@ -39,31 +87,35 @@ public class TweetV2 {
         try {
             JsonNode node = jsonParser.readValue(s, JsonNode.class);
 
-            //get the user of the tweet
-            if(node.has("user")){
-                JsonNode userNode = node.get("user");
-                tweet.userName = userNode.get("name").asText();
-            }
+
+
 
             //get the text of tweet
             if(node.has("text")) {
                 tweet.text = node.get("text").asText();
             }
 
-            //get the source of tweet
-            if(node.has("source")){
-                String source = node.get("source").asText().toLowerCase();
-                if(source.contains("android"))
-                    source = "Android";
-                else if (source.contains("iphone"))
-                    source="iphone";
-                else if (source.contains("web"))
-                    source="web";
-                else
-                    source="unknow";
+            //get the source and id of tweet
+            if(node.has("data")) {
+                JsonNode dataNode = node.get("data");
+                    if (dataNode.has("source")) {
+                        String source = dataNode.get("source").asText().toLowerCase();
+                        if (source.contains("android"))
+                            source = "Android";
+                        else if (source.contains("iphone"))
+                            source = "iphone";
+                        else if (source.contains("web"))
+                            source = "web";
+                        else
+                            source = "unknow";
 
-                tweet.source =source;
-            }
+                        tweet.source = source;
+                    }
+                    if(dataNode.has("id")){
+                        tweet.id = dataNode.get("id").asText();
+                    }
+                }
+
 
             //get the hashtag of the tweet
             if(node.has("data")){
@@ -71,7 +123,7 @@ public class TweetV2 {
              if(dataNode.has("entities")){
                 JsonNode entitiesNode = dataNode.get("entities");
                 if(entitiesNode.has("hashtags")){
-                    System.out.println("1111111111111111");
+//                    System.out.println("1111111111111111");
                     //!!!!!!!!!!!!!!!!
 //                    tweet.hashtags = String.valueOf(entitiesNode.get("hashtags").elements());
 //                    for (Iterator<JsonNode> it = entitiesNode.get("hashtags").elements(); it.hasNext(); ) {
@@ -109,7 +161,7 @@ public class TweetV2 {
 
     @Override
     public String toString() {
-        return "username: " + this.userName+ "; " +
+        return "id: " + this.id+ "; " +
                 "source: " +this.source + "; " +
                 "hashtags: " +this.hashtagStr + "; " +
                 "raw..........: " + this.rawText + " ";

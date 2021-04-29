@@ -10,7 +10,7 @@ public class V2source implements SourceFunction<String> {
     private boolean running = true;
     @Override
     public void run(SourceContext<String> sourceContext) throws Exception {
-        InputStream stream = FilterTwitterStream.getStream();
+        InputStream stream = FilterTwitterStreamV2.getStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
         String line = reader.readLine();
         while(running){

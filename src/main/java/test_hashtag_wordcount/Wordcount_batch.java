@@ -4,7 +4,10 @@ import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.java.DataSet;
 import org.apache.flink.api.java.ExecutionEnvironment;
 import org.apache.flink.api.java.tuple.Tuple2;
+import org.apache.flink.streaming.api.checkpoint.ListCheckpointed;
 import org.apache.flink.util.Collector;
+
+import java.util.List;
 
 //batch processing test
 public class Wordcount_batch {
@@ -23,7 +26,7 @@ public class Wordcount_batch {
 
     }
     //自定义类，实现flatmapfunction接口，注意接口中的泛型
-    public static class MyFlatMapper implements FlatMapFunction<String, Tuple2<String,Integer>>{
+    public static class MyFlatMapper implements FlatMapFunction<String, Tuple2<String,Integer>>, ListCheckpointed<Integer> {
 
         public void flatMap(String s, Collector<Tuple2<String, Integer>> collector) throws Exception {
             String[] words = s.split(" ");
@@ -31,6 +34,16 @@ public class Wordcount_batch {
             for(String str:words){
                 collector.collect(new Tuple2<String, Integer>(str,1));
             }
+
+        }
+
+        @Override
+        public List<Integer> snapshotState(long l, long l1) throws Exception {
+            return null;
+        }
+
+        @Override
+        public void restoreState(List<Integer> list) throws Exception {
 
         }
     }

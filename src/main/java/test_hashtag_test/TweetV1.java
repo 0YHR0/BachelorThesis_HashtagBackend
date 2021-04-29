@@ -13,16 +13,64 @@ import java.util.List;
  * The class defines the attribute of a tweet
  * @author Yang Haoran
  */
-public class Tweet {
+public class TweetV1 {
 
     private String text;
     private String userName;
     public String rawText;//the initial text
-    public String source;
+    public String source = "unknow";
     public List<String> hashtags = new ArrayList<String>();
     public String hashtagStr = "";
 
-    private Tweet() {
+    private TweetV1() {
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getRawText() {
+        return rawText;
+    }
+
+    public void setRawText(String rawText) {
+        this.rawText = rawText;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public List<String> getHashtags() {
+        return hashtags;
+    }
+
+    public void setHashtags(List<String> hashtags) {
+        this.hashtags = hashtags;
+    }
+
+    public String getHashtagStr() {
+        return hashtagStr;
+    }
+
+    public void setHashtagStr(String hashtagStr) {
+        this.hashtagStr = hashtagStr;
     }
 
     /**
@@ -30,11 +78,11 @@ public class Tweet {
      * @param s the input
      * @return the object Tweet
      */
-    public static Tweet fromString(String s) {
+    public static TweetV1 fromString(String s) {
 
         ObjectMapper jsonParser = new ObjectMapper();
-        Tweet tweet = new Tweet();
-        tweet.rawText = s;
+        TweetV1 tweetV1 = new TweetV1();
+        tweetV1.rawText = s;
 
         try {
             JsonNode node = jsonParser.readValue(s, JsonNode.class);
@@ -42,12 +90,12 @@ public class Tweet {
             //get the user of the tweet
             if(node.has("user")){
                 JsonNode userNode = node.get("user");
-                tweet.userName = userNode.get("name").asText();
+                tweetV1.userName = userNode.get("name").asText();
             }
 
             //get the text of tweet
             if(node.has("text")) {
-                tweet.text = node.get("text").asText();
+                tweetV1.text = node.get("text").asText();
             }
 
             //get the source of tweet
@@ -62,7 +110,7 @@ public class Tweet {
                 else
                     source="unknow";
 
-                    tweet.source =source;
+                    tweetV1.source =source;
             }
 
             //get the hashtag of the tweet
@@ -80,9 +128,9 @@ public class Tweet {
                     Iterator<JsonNode> elements = entitiesNode.get("hashtags").elements();
                     while(elements.hasNext()){
                         JsonNode t = elements.next();
-                        tweet.hashtags.add(t.get("text").asText());
+                        tweetV1.hashtags.add(t.get("text").asText());
 //                        System.out.println(t.get("text").asText());
-                        tweet.hashtagStr += t.get("text").asText();
+                        tweetV1.hashtagStr += t.get("text").asText();
                     }
                 }
 
@@ -91,7 +139,7 @@ public class Tweet {
             }
 
 
-                return tweet;
+                return tweetV1;
 
 
         } catch (JsonProcessingException e) {
@@ -107,7 +155,6 @@ public class Tweet {
     public String toString() {
         return "username: " + this.userName+ "; " +
                 "source: " +this.source + "; " +
-                "hashtags: " +this.hashtagStr + "; " +
-         "raw..........: " + this.rawText + " ";
+                "hashtags: " +this.hashtagStr + "; " ;
     }
 }

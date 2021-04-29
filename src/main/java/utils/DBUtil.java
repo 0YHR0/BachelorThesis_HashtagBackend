@@ -1,5 +1,7 @@
 package utils;
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,17 +12,18 @@ import java.util.Properties;
  * @author Yang Haoran
  */
 public class DBUtil {
+    private static ComboPooledDataSource ds =null;
     private static Connection conn;
-    private static ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
+    /*private static ThreadLocal<Connection> threadLocal = new ThreadLocal<Connection>();
     private static String driver;
     private static String url;
     private static String username;
     private static String password;
-
+*/
     /**
      * Load the configuration file.
      */
-    static {
+    /*static {
         Properties props = new Properties();
         try {
             props.load(ClassLoader.getSystemClassLoader().getResourceAsStream("db.properties"));
@@ -33,14 +36,26 @@ public class DBUtil {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
+    //get the connection pool
+//    static{
+//
+//        try{
+//            ds = new ComboPooledDataSource("mysql");//使用C3P0的命名配置来创建数据源
+//        }catch (Exception e) {
+//
+//            throw new ExceptionInInitializerError(e);
+//
+//        }
+//
+//    }
 
     /**
      * Get the connection which is bind to the client.
      * @return A datasource connection.
      */
-    public static Connection getConnection() {
-        try {
+    public static Connection getConnection() throws SQLException {
+    /*    try {
             if (conn == null) {
                 threadLocal.set(DriverManager.getConnection(url, username, password));
             }
@@ -49,7 +64,8 @@ public class DBUtil {
             System.out.println("Fail to get the connection!");
             e.printStackTrace();
         }
-        return conn;
+        return conn;*/
+        return ds.getConnection();
     }
 
     /**
@@ -64,7 +80,7 @@ public class DBUtil {
             if (statement != null) statement.close();
             if (conn != null) {
                 conn.setAutoCommit(true);
-                threadLocal.remove();
+//                threadLocal.remove();
                 conn.close();
                 conn = null;
             }

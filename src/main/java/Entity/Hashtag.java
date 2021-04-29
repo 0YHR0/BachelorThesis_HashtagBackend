@@ -37,4 +37,14 @@ public class Hashtag {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public String toString() {
+        return "Hashtag{" +
+                "text='" + text + '\'' +
+                ", count=" + count +
+                ", location='" + location + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

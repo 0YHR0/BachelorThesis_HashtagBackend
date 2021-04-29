@@ -21,7 +21,7 @@ import java.util.*;
 /*
  * Sample code to demonstrate the use of the Filtered Stream endpoint
  * */
-public class FilterTwitterStream {
+public class FilterTwitterStreamV2 {
 
 
     public static InputStream getStream() throws Exception {
@@ -51,7 +51,7 @@ public class FilterTwitterStream {
                         .setCookieSpec(CookieSpecs.STANDARD).build())
                 .build();
 //also get the entities and the source
-        URIBuilder uriBuilder = new URIBuilder("https://api.twitter.com/2/tweets/search/stream?tweet.fields=entities,source");
+        URIBuilder uriBuilder = new URIBuilder("https://api.twitter.com/2/tweets/search/stream?tweet.fields=entities,source,geo&expansions=geo.place_id&place.fields=country,country_code,place_type");
 
         HttpGet httpGet = new HttpGet(uriBuilder.build());
         httpGet.setHeader("Authorization", String.format("Bearer %s", bearerToken));

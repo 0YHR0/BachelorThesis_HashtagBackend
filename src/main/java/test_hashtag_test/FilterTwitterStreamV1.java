@@ -7,7 +7,7 @@ import org.apache.flink.streaming.connectors.twitter.TwitterSource;
 import java.io.Serializable;
 import java.util.Arrays;
 
-public class TweetFilter implements TwitterSource.EndpointInitializer, Serializable {
+public class FilterTwitterStreamV1 implements TwitterSource.EndpointInitializer, Serializable {
     @Override
     public StreamingEndpoint createEndpoint() {
         StatusesFilterEndpoint endpoint = new StatusesFilterEndpoint();

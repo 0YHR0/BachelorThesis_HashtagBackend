@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<c3p0-config>
+    <!--使用默认的配置读取连接池对象-->
+    <default-config>
+        <!--连接参数-->
+        <property name="driverClass">com.mysql.cj.jdbc.Driver</property>
+        <property name="jdbcUrl">jdbc:mysql://localhost:3306/hashtag?serverTimezone=GMT%2B8&amp;characterEncoding=utf-8&amp;useSSL=false</property>
+        <property name="user">root</property>
+        <property name="password">123456</property>
+        <!--连接池参数-->
+        <!--初始化申请的连接数量-->
+        <property name="initialPoolSize">8</property>
+        <property name="idleConnectionTestPeriod">10</property>
+        <!--超时时间-->
+        <property name="checkoutTimeout">5000</property>
+        <property name="maxIdleTime">20</property>
+        <!--最大的连接数量-->
+        <property name="maxPoolSize">100</property>
+        <property name="minPoolSize">5</property>
+        <property name="maxStatements">200</property>
+    </default-config>
+
+    <named-config name="mysql">
+        <property name="driverClass">com.mysql.cj.jdbc.Driver</property>
+        <property name="jdbcUrl">jdbc:mysql://47.100.46.122:3306/hashtag?serverTimezone=GMT%2B8&amp;characterEncoding=utf-8&amp;useSSL=false</property>
+        <property name="user">hashtag</property>
+        <property name="password">Yhr99520</property>
+<!--        <property name="jdbcUrl">jdbc:mysql://localhost:3306/hashtag?serverTimezone=GMT%2B8&amp;characterEncoding=utf-8&amp;useSSL=false</property>-->
+<!--        <property name="user">root</property>-->
+<!--        <property name="password">123456</property>-->
+        <property name="acquireIncrement">5</property>
+        <property name="initialPoolSize">8</property>
+        <property name="minPoolSize">5</property>
+        <property name="maxPoolSize">100</property><!-- intergalactoApp adopts a different approach to configuring statement caching -->
+        <property name="maxStatements">0</property>
+        <property name="maxStatementsPerConnection">5</property>
+        <!--超时时间-->
+        <property name="checkoutTimeout">10000</property>
+        <property name="maxIdleTime">20</property>
+    </named-config>
+
+
+</c3p0-config>
