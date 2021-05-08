@@ -16,6 +16,7 @@ src/main/java/Entity: This is folder stores the entity of Hashtag.
 src/main/java/hashtag_analyze_main:This is the main folder of the hashtag processing.
 
 |---src/main/java/hashtag_analyze_main/V2: This is the hashtag stream processing using TwitterV2 API.
+
 |------src/main/java/hashtag_analyze_main/V2/ProcessingTwitterV2: You can run the application in this class.
 
 [Backup] In case the TwitterV2 API is down or reach the monthly limitation, you can use this backup to process the hashtag with TwitterV1 API!
