@@ -1,13 +1,19 @@
 # BachelorThesis_HashtagBackend
 Hashtag analyze
+
 @author Yang Haoran
 
 
 src/main/resources/c3p0-config.xml: The config of the connection pool can be modified here.
+
 src/main/resources/db.properities: The connection to the database can be modified here.
+
 src/main/resources/test.txt: This file is used to test the steaming processing as the source.(NOT USED)
+
 src/main/resources/tweet.json: This is the example tweet format from the Twitter API.
+
 src/main/resources/twitter.properties: The config of the authority of Twitter API can be set here.
+
 
 
 src/main/java/Entity: This is folder stores the entity of Hashtag.
