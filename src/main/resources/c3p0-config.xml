@@ -33,7 +33,7 @@
         <property name="minPoolSize">5</property>
         <property name="maxPoolSize">100</property><!-- intergalactoApp adopts a different approach to configuring statement caching -->
         <property name="maxStatements">0</property>
-        <property name="maxStatementsPerConnection">5</property>
+        <property name="maxStatementsPerConnection">50</property>
         <!--超时时间-->
         <property name="checkoutTimeout">10000</property>
         <property name="maxIdleTime">20</property>

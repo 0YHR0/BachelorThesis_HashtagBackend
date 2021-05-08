@@ -1,4 +1,4 @@
-package test_hashtag_test;
+package hashtag_analyze_main.V2;
 
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
@@ -21,6 +21,15 @@ public class TweetV2 {
     private String source;
     private List<String> hashtags = new ArrayList<String>();
     private String hashtagStr = "";
+    private String time = "0";
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public String getText() {
         return text;
@@ -86,52 +95,39 @@ public class TweetV2 {
 
         try {
             JsonNode node = jsonParser.readValue(s, JsonNode.class);
-
-
-
-
             //get the text of tweet
             if(node.has("text")) {
                 tweet.text = node.get("text").asText();
             }
 
-            //get the source and id of tweet
-            if(node.has("data")) {
-                JsonNode dataNode = node.get("data");
-                    if (dataNode.has("source")) {
-                        String source = dataNode.get("source").asText().toLowerCase();
-                        if (source.contains("android"))
-                            source = "Android";
-                        else if (source.contains("iphone"))
-                            source = "iphone";
-                        else if (source.contains("web"))
-                            source = "web";
-                        else
-                            source = "unknow";
-
-                        tweet.source = source;
-                    }
-                    if(dataNode.has("id")){
-                        tweet.id = dataNode.get("id").asText();
-                    }
-                }
-
-
-            //get the hashtag of the tweet
             if(node.has("data")){
                 JsonNode dataNode = node.get("data");
-             if(dataNode.has("entities")){
+                //get the source of the hashtag
+                if (dataNode.has("source")) {
+                    String source = dataNode.get("source").asText().toLowerCase();
+                    if (source.contains("android"))
+                        source = "Android";
+                    else if (source.contains("iphone"))
+                        source = "iphone";
+                    else if (source.contains("web"))
+                        source = "web";
+                    else
+                        source = "unknow";
+
+                    tweet.source = source;
+                }
+                //get the id of the tweet
+                if(dataNode.has("id")){
+                    tweet.id = dataNode.get("id").asText();
+                }
+                //get the time of the tweet
+                if(dataNode.has("created_at")){
+                    tweet.time = dataNode.get("created_at").asText();
+                }
+                if(dataNode.has("entities")){
                 JsonNode entitiesNode = dataNode.get("entities");
+                //get the hashtags of the tweet
                 if(entitiesNode.has("hashtags")){
-//                    System.out.println("1111111111111111");
-                    //!!!!!!!!!!!!!!!!
-//                    tweet.hashtags = String.valueOf(entitiesNode.get("hashtags").elements());
-//                    for (Iterator<JsonNode> it = entitiesNode.get("hashtags").elements(); it.hasNext(); ) {
-//                        JsonNode t = it.next();
-//                        tweet.hashtags.add(t.asText());
-//                        System.out.println("11" + t.asText());
-//                        tweet.hashtagStr += t.asText();
-//                    }
                     Iterator<JsonNode> elements = entitiesNode.get("hashtags").elements();
                     while(elements.hasNext()){
                         JsonNode t = elements.next();
@@ -164,6 +160,7 @@ public class TweetV2 {
         return "id: " + this.id+ "; " +
                 "source: " +this.source + "; " +
                 "hashtags: " +this.hashtagStr + "; " +
+                "time: " + this.time +
                 "raw..........: " + this.rawText + " ";
     }
 }

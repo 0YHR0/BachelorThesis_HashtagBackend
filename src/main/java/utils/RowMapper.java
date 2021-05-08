@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 /**
  * A mapper which is used to encapsulate the data from the DB.
- * @author Guozhi Zhan
+ * @author Yang Haoran
  */
 public interface RowMapper<T> {
 

@@ -1,4 +1,4 @@
-package test_hashtag_test;
+package hashtag_analyze_main.V2;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -18,21 +18,31 @@ import org.json.JSONObject;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.util.*;
-/*
- * Sample code to demonstrate the use of the Filtered Stream endpoint
- * */
+
+/**
+ * This class is used to filter the Tweet from the API(V2)
+ * @author Yang Haoran
+ */
 public class FilterTwitterStreamV2 {
 
-
+    /**
+     * Get the stream using Tweet API(V2)
+     * @return the stream
+     * @throws Exception
+     */
     public static InputStream getStream() throws Exception {
         Properties twitterProperties = new Properties();
         twitterProperties.load(ClassLoader.getSystemClassLoader().getResourceAsStream("twitter.properties"));
         String bearerToken = twitterProperties.getProperty("Bearer_Token");
         if (null != bearerToken) {
             Map<String, String> rules = new HashMap<String, String>();
+
+
             //!!!!!!!!!!!!!!!!!!set the rules:english only, with hashtags ,with the keyword:Germany or German!!!!!!!!!!!!!!!!!
             rules.put("(german OR germany) lang:en has:hashtags", "english only with hashtags with the keyword:Germany or German");
-//            rules.put("dogs has:images", "dog images");
+
+
+
             setupRules(bearerToken, rules);
              return connectStream(bearerToken);
         } else {
@@ -41,7 +51,7 @@ public class FilterTwitterStreamV2 {
         }
     }
 
-    /*
+    /**
      * This method calls the filtered stream endpoint and streams Tweets from it
      * */
     private static InputStream connectStream(String bearerToken) throws Exception {
@@ -50,8 +60,8 @@ public class FilterTwitterStreamV2 {
                 .setDefaultRequestConfig(RequestConfig.custom()
                         .setCookieSpec(CookieSpecs.STANDARD).build())
                 .build();
-//also get the entities and the source
-        URIBuilder uriBuilder = new URIBuilder("https://api.twitter.com/2/tweets/search/stream?tweet.fields=entities,source,geo&expansions=geo.place_id&place.fields=country,country_code,place_type");
+        //also get the entities,  the source and the location information of tweet
+        URIBuilder uriBuilder = new URIBuilder("https://api.twitter.com/2/tweets/search/stream?tweet.fields=entities,source,geo,created_at&expansions=geo.place_id&place.fields=country,country_code,place_type");
 
         HttpGet httpGet = new HttpGet(uriBuilder.build());
         httpGet.setHeader("Authorization", String.format("Bearer %s", bearerToken));
@@ -60,12 +70,6 @@ public class FilterTwitterStreamV2 {
         HttpEntity entity = response.getEntity();
         if (null != entity) {
             return entity.getContent();
-//            BufferedReader reader = new BufferedReader(new InputStreamReader((entity.getContent())));
-//            String line = reader.readLine();
-//            while (line != null) {
-//                System.out.println(line);
-//                line = reader.readLine();
-//            }
         }
         else{
             throw new Exception("entity is null");
@@ -73,7 +77,7 @@ public class FilterTwitterStreamV2 {
 
     }
 
-    /*
+    /**
      * Helper method to setup rules before streaming data
      * */
     private static void setupRules(String bearerToken, Map<String, String> rules) throws IOException, URISyntaxException, JSONException {
@@ -84,7 +88,7 @@ public class FilterTwitterStreamV2 {
         createRules(bearerToken, rules);
     }
 
-    /*
+    /**
      * Helper method to create rules for filtering
      * */
     private static void createRules(String bearerToken, Map<String, String> rules) throws URISyntaxException, IOException {
@@ -107,7 +111,7 @@ public class FilterTwitterStreamV2 {
         }
     }
 
-    /*
+    /**
      * Helper method to get existing rules
      * */
     private static List<String> getRules(String bearerToken) throws URISyntaxException, IOException, JSONException {
@@ -137,7 +141,7 @@ public class FilterTwitterStreamV2 {
         return rules;
     }
 
-    /*
+    /**
      * Helper method to delete rules
      * */
     private static void deleteRules(String bearerToken, List<String> existingRules) throws URISyntaxException, IOException {
@@ -160,6 +164,12 @@ public class FilterTwitterStreamV2 {
         }
     }
 
+    /**
+     * Format the string
+     * @param string input String
+     * @param ids sign
+     * @return the result String
+     */
     private static String getFormattedString(String string, List<String> ids) {
         StringBuilder sb = new StringBuilder();
         if (ids.size() == 1) {
@@ -172,7 +182,12 @@ public class FilterTwitterStreamV2 {
             return String.format(string, result.substring(0, result.length() - 1));
         }
     }
-
+    /**
+     * Format the string
+     * @param string input String
+     * @param rules rule
+     * @return the result String
+     */
     private static String getFormattedString(String string, Map<String, String> rules) {
         StringBuilder sb = new StringBuilder();
         if (rules.size() == 1) {

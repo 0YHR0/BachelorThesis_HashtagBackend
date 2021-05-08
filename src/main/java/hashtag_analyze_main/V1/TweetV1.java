@@ -1,4 +1,4 @@
-package test_hashtag_test;
+package hashtag_analyze_main.V1;
 
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.flink.shaded.jackson2.com.fasterxml.jackson.databind.JsonNode;
@@ -117,20 +117,11 @@ public class TweetV1 {
             if(node.has("entities")){
                 JsonNode entitiesNode = node.get("entities");
                 if(entitiesNode.has("hashtags")){
-                    //!!!!!!!!!!!!!!!!
-//                    tweet.hashtags = String.valueOf(entitiesNode.get("hashtags").elements());
-//                    for (Iterator<JsonNode> it = entitiesNode.get("hashtags").elements(); it.hasNext(); ) {
-//                        JsonNode t = it.next();
-//                        tweet.hashtags.add(t.asText());
-//                        System.out.println("11" + t.asText());
-//                        tweet.hashtagStr += t.asText();
-//                    }
                     Iterator<JsonNode> elements = entitiesNode.get("hashtags").elements();
                     while(elements.hasNext()){
                         JsonNode t = elements.next();
                         tweetV1.hashtags.add(t.get("text").asText());
-//                        System.out.println(t.get("text").asText());
-                        tweetV1.hashtagStr += t.get("text").asText();
+                        tweetV1.hashtagStr  = tweetV1.hashtagStr +"---" + t.get("text").asText();
                     }
                 }
 

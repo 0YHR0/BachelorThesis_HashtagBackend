@@ -5,6 +5,10 @@ import Entity.Hashtag;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * This class is use to encapsulate the data from the Database to Hashtag
+ * @author Yang Haoran
+ */
 public class HashtagMapper implements RowMapper<Hashtag>{
     public Hashtag getRowMapper(ResultSet rs) throws SQLException {
         Hashtag hashtag = new Hashtag();

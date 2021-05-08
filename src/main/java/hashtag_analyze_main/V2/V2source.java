@@ -1,11 +1,13 @@
-package test_hashtag_test;
+package hashtag_analyze_main.V2;
 
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
-
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
+/**
+ * This class is used to get the stream of the TwitterV2 api
+ * @author Yang Haoran
+ */
 public class V2source implements SourceFunction<String> {
     private boolean running = true;
     @Override
