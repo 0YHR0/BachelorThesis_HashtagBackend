@@ -44,7 +44,7 @@ public class Timer {
 
 
             }
-        },10,10, TimeUnit.SECONDS);
+        },1,1, TimeUnit.DAYS);
 
         service.scheduleAtFixedRate(new Runnable() {
             /**
@@ -70,7 +70,7 @@ public class Timer {
 
 
             }
-        },1,1, TimeUnit.MINUTES);
+        },1,7, TimeUnit.DAYS);
         service.scheduleAtFixedRate(new Runnable() {
             /**
              * record the hashtag count monthly in the temp
@@ -95,7 +95,7 @@ public class Timer {
 
 
             }
-        },1,10, TimeUnit.MINUTES);
+        },1,30, TimeUnit.DAYS);
 
 
     }

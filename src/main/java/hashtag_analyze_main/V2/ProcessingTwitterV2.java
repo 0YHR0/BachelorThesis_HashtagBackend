@@ -75,11 +75,11 @@ public class ProcessingTwitterV2 {
                  * This part is used to release the pressure of the mysql, if for test, please annotate it
                  * -----------------------------------------------------------------------------------------------------
                  */
-                /*.timeWindow(org.apache.flink.streaming.api.windowing.time.Time.seconds(30))
+                .timeWindow(org.apache.flink.streaming.api.windowing.time.Time.seconds(30))
                 .allowedLateness(org.apache.flink.streaming.api.windowing.time.Time.seconds(10))
                 .sideOutputLateData(outputTag)
                 .aggregate(new AggregateHashtag())
-                .keyBy("text")*/
+                .keyBy("text")
                 /**
                  * -----------------------------------------------------------------------------------------------------
                  * This part is used to release the pressure of the mysql, if for test, please annotate it
