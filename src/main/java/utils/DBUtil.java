@@ -23,7 +23,7 @@ public class DBUtil {
     static{
 
         try{
-            ds = new ComboPooledDataSource("mysql");//使用C3P0的命名配置来创建数据源
+            ds = new ComboPooledDataSource("mysql");//use the mysql config to create the database
         }catch (Exception e) {
 
             throw new ExceptionInInitializerError(e);

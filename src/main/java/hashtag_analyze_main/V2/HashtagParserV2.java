@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class HashtagParserV2 implements FlatMapFunction<TweetV2, Hashtag> {
     /**
-     * parse the tweet to hashtag(one tweet --> n hashtags)
+     * parse the tweet to hashtag(one tweet --- n hashtags)
      * @param tweetV2 the input tweet
      * @param collector the output
      * @throws Exception

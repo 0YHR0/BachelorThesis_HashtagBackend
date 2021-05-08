@@ -22,7 +22,7 @@ public class MysqlSink extends RichSinkFunction<Hashtag> {
     //get the connection pool
     static{
         try{
-            ds = new ComboPooledDataSource("mysql");
+            ds = new ComboPooledDataSource("mysql");//use the mysql config to create the database
         }catch (Exception e) {
             throw new ExceptionInInitializerError(e);
         }
