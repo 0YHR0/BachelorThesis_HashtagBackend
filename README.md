@@ -33,3 +33,5 @@ src/main/java/hashtag_analyze_main:This is the main folder of the hashtag proces
 
 
 src/main/java/util: This is the folder to store the utils for the test. You can use these classed when reading data from the database.
+
+You can find the class diagram in class_diagram_Flink.pdf
